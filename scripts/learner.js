@@ -3,28 +3,14 @@
 import fs from 'fs';
 import { existsSync } from 'fs'
 import { createReadStream } from 'fs';
-import { fileURLToPath } from 'url';
-import path from 'path';
 
 // Import JSON files using ES modules (Node 16+ supports import assertions)
-import dictionary from './dict.json' with { type: 'json' };
-const frequentWords = (await fs.promises.readFile('./frequentWords.txt', 'utf-8')).split("\n");
-import generalWordFreq from './wordFreq.json' with { type: 'json' };
+import dictionary from '../wordData/dict.json' with { type: 'json' };
+import generalWordFreq from '../wordData/wordFreq.json' with { type: 'json' };
+
+import { getHashValue, rows } from './hash.js';
 
 
-// const path = require("path");
-// const { pathToFileURL } = require("url");
-const rows = 50000
-
-
-function getHashValue(word) {
-    let hash = 5381; // Starting seed for djb2
-    for (let i = 0; i < word.length; i++) {
-        hash = ((hash << 5) + hash) + word.charCodeAt(i); // hash * 33 + c
-    }
-    // Ensure a non-negative result and limit by rows
-    return Math.abs(hash % rows);
-}
 const isNotSpecialWord = (word) => {
     const specialChars = [
         ".", ",", " ", "-", "`", "[", "\n", "\t", "]", "*", '"', ">", "<", ":", ";",
@@ -86,8 +72,8 @@ async function countWords(filePath) {
 }
 
 
-await countWords(`./articles/yelpReviews.txt`)
-    
+await countWords(`./articles/small/text3.txt`)
+
 
 
 

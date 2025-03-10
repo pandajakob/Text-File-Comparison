@@ -4,14 +4,11 @@ import { existsSync } from 'fs'
 import { createReadStream } from 'fs';
 
 // Import JSON files using ES modules (Node 16+ supports import assertions)
-import dictionary from './dict.json' with { type: 'json' };
-import generalWordFreq from './wordFreq.json' with { type: 'json' };
-import { log } from 'console';
+import dictionary from '../wordData/dict.json' with { type: 'json' };
+import generalWordFreq from '../wordData/wordFreq.json' with { type: 'json' };
 
+import { getHashValue, rows } from './hash.js';
 
-// const path = require("path");
-// const { pathToFileURL } = require("url");
-const rows = 50000
 
 const isNotSpecialWord = (word) => {
     const specialChars = [
@@ -22,14 +19,6 @@ const isNotSpecialWord = (word) => {
 };
 
 
-function getHashValue(word) {
-    let hash = 5381; // Starting seed for djb2
-    for (let i = 0; i < word.length; i++) {
-        hash = ((hash << 5) + hash) + word.charCodeAt(i); // hash * 33 + c
-    }
-    // Ensure a non-negative result and limit by rows
-    return Math.abs(hash % rows);
-}
 
 
 
@@ -45,10 +34,7 @@ async function readTxtFile(filePath) {
             }
         }
 
-
         console.log("reading file...");
-
-
 
         let reader = createReadStream(filePath);
 
@@ -63,15 +49,15 @@ async function readTxtFile(filePath) {
                 if (isNotSpecialWord(string[i])) {
                     word += string[i];
                 } else {
-                        let wordIndex = getHashValue(word);
+                    let wordIndex = getHashValue(word);
 
-                        for (let j = 0; j < dictionary[wordIndex].length; j++) {
-                            if (dictionary[wordIndex][j] == word) {
-                                if (wordCount[wordIndex][j] < 100) { // ignore too common words
-                                    wordCount[wordIndex][j] += 1;
-                                }
+                    for (let j = 0; j < dictionary[wordIndex].length; j++) {
+                        if (dictionary[wordIndex][j] == word) {
+                            if (wordCount[wordIndex][j] < 100) { // ignore too common words
+                                wordCount[wordIndex][j] += 1;
                             }
                         }
+                    }
                     word = "";
                 }
             }
@@ -92,42 +78,42 @@ async function readTxtFile(filePath) {
 
 }
 
-let pizza = await readTxtFile("./articles/small/pizza.txt")
-let naples = await readTxtFile("./articles/small/naples.txt")
-let naples2 = await readTxtFile("./articles/small/naples2.txt")
-let chatGPT = await readTxtFile("./articles/small/chatGPT.txt")
-let xzz = await readTxtFile("./articles/small/xzz.txt")
-let xzw = await readTxtFile("./articles/small/xzw.txt")
+//let pizza = await readTxtFile("./articles/small/pizza.txt")
+//let naples = await readTxtFile("./articles/small/naples.txt")
+//let naples2 = await readTxtFile("./articles/small/naples2.txt")
+//let chatGPT = await readTxtFile("./articles/small/chatGPT.txt")
+//let xzz = await readTxtFile("./articles/small/xzz.txt")
+//let xzw = await readTxtFile("./articles/small/xzw.txt")
+
+let mobyDick = await readTxtFile("./articles/small/mobyDick.txt")
+let christmasCarol = await readTxtFile("./articles/small/christmasCarol.txt")
+let frankenstein = await readTxtFile("./articles/small/frankenstein.txt")
 
 /*
 // let dronning = readTxtFile("./articles/dronning.txt")
 let christmasCarol = await readTxtFile("./articles/small/christmasCarol.txt")
-let frankenstein = await readTxtFile("./articles/small/frankenstein.txt")
-let mobyDick = await readTxtFile("./articles/small/mobyDick.txt")
 let machineLearning = await readTxtFile("./articles/small/machineLearning.txt")
 let mathBook = await readTxtFile("./articles/small/mathBook.txt")
 let physicsBook = await readTxtFile("./articles/small/physicsBook.txt")
 let scifiBook = await readTxtFile("./articles/small/scifiBook.txt")*/
 
 
+console.log("frankenstein vs moby dick", compare(frankenstein, mobyDick))
 
-    console.log("pizz",pizza)
+console.log("christmasCarol vs moby dick", compare(christmasCarol, mobyDick))
 
-    console.log("Pizza vs Naples", compare(pizza, naples))
-    console.log("Naples vs Naples2", compare(naples, naples2))
-    console.log("pizza vs chatGPT", compare(pizza, chatGPT))
-    console.log("xzz vs xzw", compare(xzz, xzw))
+// console.log("Pizza vs Naples", compare(pizza, naples))
+// console.log("Naples vs Naples2", compare(naples, naples2))
+// console.log("pizza vs chatGPT", compare(pizza, chatGPT))
+// console.log("xzz vs xzw", compare(xzz, xzw))
 
-    /* console.log("frankenstein vs christmas carol", compare(frankenstein, christmasCarol))
-     console.log("frankenstein vs moby dick", compare(frankenstein, mobyDick))
-     console.log("Chatgpt vs machine learning", compare(machineLearning, chatGPT))
-     console.log("Math vs Physics", compare(mathBook, physicsBook))
-     console.log("Math vs Scifi", compare(mathBook, scifiBook))
-     console.log("Physics vs Scifi", compare(physicsBook, scifiBook))
-     console.log("Math vs machine learning", compare(mathBook, machineLearning))
-     */
-    
-
+/* console.log("frankenstein vs christmas carol", compare(frankenstein, christmasCarol))
+ console.log("Chatgpt vs machine learning", compare(machineLearning, chatGPT))
+ console.log("Math vs Physics", compare(mathBook, physicsBook))
+ console.log("Math vs Scifi", compare(mathBook, scifiBook))
+ console.log("Physics vs Scifi", compare(physicsBook, scifiBook))
+ console.log("Math vs machine learning", compare(mathBook, machineLearning))
+ */
 
 
 function compare(matrix1, matrix2) {
@@ -138,13 +124,13 @@ function compare(matrix1, matrix2) {
     let radian = 180 / Math.PI;
     console.log("angle:", (angleBetween(arr1, arr2) * radian).toPrecision(2) + "°")
 
-    const distance =  dist(arr1, arr2);
+    const distance = dist(arr1, arr2);
     console.log("distance:", distance.toPrecision(2))
 
-    const  rms = (dist(arr1, arr2) / Math.sqrt(arr1.length))
+    const rms = (dist(arr1, arr2) / Math.sqrt(arr1.length))
     console.log("rms: ", rms.toPrecision(2))
 
-    wordEquality(arr1,arr2);
+    wordEquality(arr1, arr2);
 
     fs.writeFile('compare.json', JSON.stringify(matrix1, matrix2), (err) => {
         if (err) throw err;
@@ -178,7 +164,7 @@ function wordEquality(arr1, arr2) {
 
     console.log("totalwords", totalUniqueWords)
     console.log("sameWords", sameWords)
-    console.log("percent:", ((sameWords/totalUniqueWords)*100).toPrecision(4), "%")
+    console.log("percent:", ((sameWords / totalUniqueWords) * 100).toPrecision(4), "%")
 }
 
 
@@ -238,7 +224,7 @@ function convertToArray(matrix) {
     for (let i = 0; i < matrix.length; i++) {
         for (let j = 0; j < matrix[i].length; j++) {
 
-            array.push(matrix[i][j]/(Math.log(generalWordFreq[i][j]) || 1))
+            array.push(matrix[i][j] / (Math.log(generalWordFreq[i][j]) || 1))
         }
     }
     return array
