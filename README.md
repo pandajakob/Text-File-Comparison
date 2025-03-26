@@ -2,7 +2,7 @@
 
 ## How to Run
 1. **Fork the repository.**
-2. **Add two text files** to the root directory and name them `text1` and `text2`.
+2. **Add two text files** to the root directory and name them `text1.txt` and `text2.txt`.
 3. **Run the script** by executing the following command in your terminal:
    ```bash
    node script.js
