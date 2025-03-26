@@ -78,21 +78,9 @@ async function readTxtFile(filePath) {
 
 }
 
-//let pizza = await readTxtFile("./articles/small/pizza.txt")
-//let naples = await readTxtFile("./articles/small/naples.txt")
-//let naples2 = await readTxtFile("./articles/small/naples2.txt")
-//let chatGPT = await readTxtFile("./articles/small/chatGPT.txt")
-//let xzz = await readTxtFile("./articles/small/xzz.txt")
-//let xzw = await readTxtFile("./articles/small/xzw.txt")
 
-let mobyDick = await readTxtFile("./articles/small/mobyDick.txt")
-let christmasCarol = await readTxtFile("./articles/small/christmasCarol.txt")
-let frankenstein = await readTxtFile("./articles/small/frankenstein.txt")
-
-/*
-
-let text1 = await readTxtFile("./articles/small/christmasCarol.txt")
-let text2 = await readTxtFile("./articles/small/machineLearning.txt")
+let text1 = await readTxtFile("./text1.txt")
+let text2 = await readTxtFile("./text2.txt")
 
 console.log("Text vs Text2", compare(text1, text2))
 
