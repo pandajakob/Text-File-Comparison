@@ -90,30 +90,11 @@ let christmasCarol = await readTxtFile("./articles/small/christmasCarol.txt")
 let frankenstein = await readTxtFile("./articles/small/frankenstein.txt")
 
 /*
-// let dronning = readTxtFile("./articles/dronning.txt")
-let christmasCarol = await readTxtFile("./articles/small/christmasCarol.txt")
-let machineLearning = await readTxtFile("./articles/small/machineLearning.txt")
-let mathBook = await readTxtFile("./articles/small/mathBook.txt")
-let physicsBook = await readTxtFile("./articles/small/physicsBook.txt")
-let scifiBook = await readTxtFile("./articles/small/scifiBook.txt")*/
 
+let text1 = await readTxtFile("./articles/small/christmasCarol.txt")
+let text2 = await readTxtFile("./articles/small/machineLearning.txt")
 
-console.log("frankenstein vs moby dick", compare(frankenstein, mobyDick))
-
-console.log("christmasCarol vs moby dick", compare(christmasCarol, mobyDick))
-
-// console.log("Pizza vs Naples", compare(pizza, naples))
-// console.log("Naples vs Naples2", compare(naples, naples2))
-// console.log("pizza vs chatGPT", compare(pizza, chatGPT))
-// console.log("xzz vs xzw", compare(xzz, xzw))
-
-/* console.log("frankenstein vs christmas carol", compare(frankenstein, christmasCarol))
- console.log("Chatgpt vs machine learning", compare(machineLearning, chatGPT))
- console.log("Math vs Physics", compare(mathBook, physicsBook))
- console.log("Math vs Scifi", compare(mathBook, scifiBook))
- console.log("Physics vs Scifi", compare(physicsBook, scifiBook))
- console.log("Math vs machine learning", compare(mathBook, machineLearning))
- */
+console.log("Text vs Text2", compare(text1, text2))
 
 
 function compare(matrix1, matrix2) {
