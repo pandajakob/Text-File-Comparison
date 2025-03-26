@@ -3,3 +3,5 @@
 /compare.json
 *.DS_Store
 package-lock.json
+/wordData/nextNextWords.json
+/wordData/nextWords.Json
