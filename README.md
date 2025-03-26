@@ -1,5 +1,14 @@
-# Compare two texts with this JavaScript program
+# Compare Two Texts with JavaScript
 
+## How to Run
+1. **Fork the repository.**
+2. **Add two text files** to the root directory and name them `text1` and `text2`.
+3. **Run the script** by executing the following command in your terminal:
+   ```bash
+   node script.js
+   ```
+
+   
 ## Description
 
 This program compares two text files by mapping out all the words that are also in the English dictionary. The process works as follows:
